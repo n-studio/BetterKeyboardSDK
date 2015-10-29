@@ -44,7 +44,6 @@
 		8BE249D28A82B0DE1D5BB468 /* Pods-BetterKeyboardSDK_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BetterKeyboardSDK_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BetterKeyboardSDK_Tests/Pods-BetterKeyboardSDK_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		BC467D1C2A222DF296F53091 /* Pods-BetterKeyboardSDK_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BetterKeyboardSDK_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-BetterKeyboardSDK_Example/Pods-BetterKeyboardSDK_Example.release.xcconfig"; sourceTree = "<group>"; };
 		D6CBFD9A73F184315D80FAC6 /* BetterKeyboardSDK.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = BetterKeyboardSDK.podspec; path = ../BetterKeyboardSDK.podspec; sourceTree = "<group>"; };
-		E241A8DA1BDF64B000EBEDDF /* BetterKeyboardSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BetterKeyboardSDK.framework; path = "Pods/../build/Debug-iphoneos/BetterKeyboardSDK.framework"; sourceTree = "<group>"; };
 		F2248A048E067E556524F600 /* Pods_BetterKeyboardSDK_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BetterKeyboardSDK_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -151,7 +150,6 @@
 		D0A2C327A589764FA1010263 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				E241A8DA1BDF64B000EBEDDF /* BetterKeyboardSDK.framework */,
 				8B5A5AC7AD349BB91C21517C /* Pods_BetterKeyboardSDK_Example.framework */,
 				F2248A048E067E556524F600 /* Pods_BetterKeyboardSDK_Tests.framework */,
 			);
