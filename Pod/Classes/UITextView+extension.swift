@@ -152,18 +152,22 @@ extension UITextView {
     }
     
     func cutText(sender: AnyObject?) {
+        let range = self.selectedRange
         let pasteBoard: UIPasteboard = UIPasteboard.generalPasteboard()
         let textToCopy = (self.text as NSString).substringWithRange(self.selectedRange)
         if textToCopy != "" {
             pasteBoard.string = textToCopy
         }
         self.text = (self.text as NSString).stringByReplacingCharactersInRange(self.selectedRange, withString: "")
+        self.selectedRange = NSRange(location: range.location, length: 0)
     }
     
     func pasteText(sender: AnyObject?) {
+        let range = self.selectedRange
         let pasteBoard: UIPasteboard = UIPasteboard.generalPasteboard()
         if pasteBoard.string != nil {
             self.text = (self.text as NSString).stringByReplacingCharactersInRange(self.selectedRange, withString: pasteBoard.string!)
+            self.selectedRange = NSRange(location: range.location + pasteBoard.string!.characters.count, length: 0)
         }
     }
     
