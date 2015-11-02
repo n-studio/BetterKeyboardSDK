@@ -2,8 +2,8 @@
 //  AppDelegate.swift
 //  BetterKeyboardSDK
 //
-//  Created by Lidner on 10/27/2015.
-//  Copyright (c) 2015 Lidner. All rights reserved.
+//  Created by n-studio on 10/27/2015.
+//  Copyright (c) 2015 Solfanto, Inc. All rights reserved.
 //
 
 import UIKit
