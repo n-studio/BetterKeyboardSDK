@@ -15,6 +15,18 @@ it, simply add the following line to your Podfile:
 pod "BetterKeyboardSDK", git: "git@github.com:n-studio/BetterKeyboardSDK.git"
 ```
 
+## Shortcuts
+
+`⌘a: Select all`
+`⌘c: Copy`
+`⌘x: Cut`
+`⌘v: Paste`
+`⌘z: Undo`
+`⌘y: Redo`
+`⌘←: Select left`
+`⌘→: Select right`
+`⎋ or ␛: Escape (currently no effect)`
+
 ## Contribute
 
 The API is still in draft, feel free to open issues to make feature suggestions or any comment/criticism.
