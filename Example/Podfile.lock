@@ -1,0 +1,14 @@
+PODS:
+  - BetterKeyboardSDK (0.1.0)
+
+DEPENDENCIES:
+  - BetterKeyboardSDK (from `../`)
+
+EXTERNAL SOURCES:
+  BetterKeyboardSDK:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  BetterKeyboardSDK: 3722d2f985b3b258d142947bc349f75fdb410230
+
+COCOAPODS: 0.39.0
