@@ -17,14 +17,14 @@ pod "BetterKeyboardSDK", git: "git@github.com:n-studio/BetterKeyboardSDK.git"
 
 ## Shortcuts
 
-`⌘a: Select all`
-`⌘c: Copy`
-`⌘x: Cut`
-`⌘v: Paste`
-`⌘z: Undo`
-`⌘y: Redo`
-`⌘←: Select left`
-`⌘→: Select right`
+`⌘a: Select all`<br />
+`⌘c: Copy`<br />
+`⌘x: Cut`<br />
+`⌘v: Paste`<br />
+`⌘z: Undo`<br />
+`⌘y: Redo`<br />
+`⌘←: Select left`<br />
+`⌘→: Select right`<br />
 `⎋ or ␛: Escape (currently no effect)`
 
 ## Contribute
