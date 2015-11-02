@@ -9,7 +9,7 @@
 Pod::Spec.new do |s|
   s.name             = "BetterKeyboardSDK"
   s.version          = "0.1.0"
-  s.summary          = "A short description of BetterKeyboardSDK."
+  s.summary          = "A quick way to implement default features for Better Keyboard (by Solfanto)."
 
 # This description is used to generate tags and improve search results.
 #   * Think: What does it do? Why did you write it? What is the focus?
@@ -19,11 +19,11 @@ Pod::Spec.new do |s|
   s.description      = <<-DESC
                        DESC
 
-  s.homepage         = "https://github.com/<GITHUB_USERNAME>/BetterKeyboardSDK"
+  s.homepage         = "https://github.com/n-studio/BetterKeyboardSDK"
   # s.screenshots     = "www.example.com/screenshots_1", "www.example.com/screenshots_2"
   s.license          = 'MIT'
-  s.author           = { "Lidner" => "lidner@spk.local" }
-  s.source           = { :git => "https://github.com/<GITHUB_USERNAME>/BetterKeyboardSDK.git", :tag => s.version.to_s }
+  s.author           = "Matthew Nguyen"
+  s.source           = { :git => "https://github.com/n-studio/BetterKeyboardSDK.git", :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.platform     = :ios, '9.0'
