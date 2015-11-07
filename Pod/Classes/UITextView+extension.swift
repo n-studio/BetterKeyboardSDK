@@ -2,8 +2,8 @@
 //  UITextView+extension.swift
 //  betterkeyboard
 //
-//  Created by Lidner on 10/22/15.
-//  Copyright © 2015 Solfanto. All rights reserved.
+//  Created by Matthew Nguyen on 10/22/15.
+//  Copyright © 2015 Solfanto, Inc. All rights reserved.
 //
 
 import UIKit
@@ -72,6 +72,7 @@ extension UITextView {
             }
             else {
                 if self.bk_viInsertMode == false {
+                    // this part is in progress
                     switch text {
                     case "i":
                         self.bk_viInsertMode = true
