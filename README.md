@@ -1,6 +1,6 @@
 # BetterKeyboardSDK
 
-A quick way to implement default features in UITextView for Better Keyboard (by Solfanto) (https://itunes.apple.com/app/better-keyboard-by-solfanto/id1049294250?ls=1&mt=8) *(Waiting for Apple validation)*.
+A quick way to implement default features in UITextView for Better Keyboard (by Solfanto) (https://itunes.apple.com/app/better-keyboard-by-solfanto/id1049294250?ls=1&mt=8).
 
 ## Usage
 
@@ -30,6 +30,8 @@ pod "BetterKeyboardSDK", git: "git@github.com:n-studio/BetterKeyboardSDK.git"
 ## Contribute
 
 The API is still in draft, feel free to open issues to make feature suggestions or any comment/criticism.
+
+If the keyboard extension Better Keyboard (by Solfanto) itself has a bug, feel free to report it here.
 
 ## Author
 
