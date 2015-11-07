@@ -28,9 +28,9 @@ extension UITextField {
         }
     }
     
-    public func bk_advancedTextFieldShouldChangeTextInRange(range: NSRange, replacementText text: String) -> Bool {
-        if let _ = text.rangeOfString("^⌘.$", options: .RegularExpressionSearch) {
-            switch text {
+    public func bk_advancedTextFieldShouldChangeTextInRange(range: NSRange, replacementString string: String) -> Bool {
+        if let _ = string.rangeOfString("^⌘.$", options: .RegularExpressionSearch) {
+            switch string {
             case "⌘a":
                 self.selectAll(nil)
             case "⌘c":
@@ -52,7 +52,7 @@ extension UITextField {
             }
             return false
         }
-        else if text == "⎋" || text == "␛" {
+        else if string == "⎋" || string == "␛" {
             return false
         }
         return true
