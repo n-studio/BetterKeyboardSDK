@@ -9,7 +9,7 @@ If you own an iOS application, you can easily implement these shortcuts with thi
 
 If you own an iOS keyboard extension, we encourage you to also support shortcuts using the same API. *(documentation coming soon)*
 
-## Usage
+## Run Example
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
