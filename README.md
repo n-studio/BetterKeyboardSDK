@@ -22,6 +22,26 @@ it, simply add the following line to your Podfile:
 pod "BetterKeyboardSDK", git: "git@github.com:n-studio/BetterKeyboardSDK.git"
 ```
 
+## Usage
+
+Call these methods when implementing UITextViewDelegate or UITextFieldDelegate.
+
+```swift
+func textField(textField: UITextField, shouldChangeTextInRange range: NSRange, replacementString string: String) -> Bool {
+    return textField.bk_advancedTextFieldShouldChangeTextInRange(range, replacementString: string)
+}
+```
+
+```swift
+func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
+    return textView.bk_advancedTextViewShouldChangeTextInRange(range, replacementText: text)
+}
+
+func textViewDidChangeSelection(textView: UITextView) {
+    textView.bk_advancedTextViewDidChangeSelection()
+}
+```
+
 ## Shortcuts
 
 `⌘a: Select all`<br />
