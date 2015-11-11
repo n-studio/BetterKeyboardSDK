@@ -166,9 +166,9 @@ extension UITextView {
     func pasteText(sender: AnyObject?) {
         let range = self.selectedRange
         let pasteBoard: UIPasteboard = UIPasteboard.generalPasteboard()
-        if pasteBoard.string != nil {
-            self.text = (self.text as NSString).stringByReplacingCharactersInRange(self.selectedRange, withString: pasteBoard.string!)
-            self.selectedRange = NSRange(location: range.location + pasteBoard.string!.characters.count, length: 0)
+        if let string = pasteBoard.string {
+            self.text = (self.text as NSString).stringByReplacingCharactersInRange(self.selectedRange, withString: string)
+            self.selectedRange = NSRange(location: range.location + string.characters.count, length: 0)
         }
     }
     
