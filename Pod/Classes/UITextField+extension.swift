@@ -78,7 +78,10 @@ extension UITextField {
     
     var selectedRange: NSRange {
         get {
-            return NSRangeFromString("{\(self.offsetFromPosition(self.beginningOfDocument, toPosition: self.selectedTextRange!.start)),\(self.offsetFromPosition(self.selectedTextRange!.start, toPosition: self.selectedTextRange!.end))}")
+            guard let selectedTextRange = self.selectedTextRange else {
+                return NSRange()
+            }
+            return NSRangeFromString("{\(self.offsetFromPosition(self.beginningOfDocument, toPosition: selectedTextRange.start)),\(self.offsetFromPosition(selectedTextRange.start, toPosition: selectedTextRange.end))}")
         }
     }
     
@@ -98,17 +101,18 @@ extension UITextField {
             pasteBoard.string = textToCopy
         }
         self.text = (self.text! as NSString).stringByReplacingCharactersInRange(self.selectedRange, withString: "")
-        let position = self.positionFromPosition(self.beginningOfDocument, offset: range.location)
-        self.selectedTextRange = self.textRangeFromPosition(position!, toPosition: position!)
+        if let position = self.positionFromPosition(self.beginningOfDocument, offset: range.location) {
+            self.selectedTextRange = self.textRangeFromPosition(position, toPosition: position)
+        }
     }
     
     func pasteText(sender: AnyObject?) {
         let range = self.selectedRange
-        let pasteBoard: UIPasteboard = UIPasteboard.generalPasteboard()
-        if pasteBoard.string != nil {
-            self.text = (self.text! as NSString).stringByReplacingCharactersInRange(self.selectedRange, withString: pasteBoard.string!)
-            let position = self.positionFromPosition(self.beginningOfDocument, offset: range.location + pasteBoard.string!.characters.count)
-            self.selectedTextRange = self.textRangeFromPosition(position!, toPosition: position!)
+        if let pasteBoardString = UIPasteboard.generalPasteboard().string {
+            self.text = (self.text! as NSString).stringByReplacingCharactersInRange(self.selectedRange, withString: pasteBoardString)
+            if let position = self.positionFromPosition(self.beginningOfDocument, offset: range.location + pasteBoardString.characters.count) {
+                self.selectedTextRange = self.textRangeFromPosition(position, toPosition: position)
+            }
         }
     }
     

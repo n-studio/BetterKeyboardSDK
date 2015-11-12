@@ -32,8 +32,8 @@ class ViewController: UIViewController, UITextViewDelegate, UIGestureRecognizerD
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillDisappear(animated)
-        if self.tabBarController != nil {
-            self.tabBarHeight = self.tabBarController!.tabBar.frame.size.height
+        if let tabBarController = self.tabBarController {
+            self.tabBarHeight = tabBarController.tabBar.frame.size.height
         }
         bs_setKeyboardNotifications()
     }
@@ -60,7 +60,11 @@ class ViewController: UIViewController, UITextViewDelegate, UIGestureRecognizerD
             self.swipeKeyboardInitialPosition = sender.locationInView(self.view)
         }
         else if sender.state == .Changed {
-            let diffY = sender.locationInView(self.view).y - self.swipeKeyboardInitialPosition!.y
+            guard let initialPosition = self.swipeKeyboardInitialPosition else {
+                return
+            }
+            
+            let diffY = sender.locationInView(self.view).y - initialPosition.y
             let keyboard = bk_getKeyboardView()
             if let frame = keyboard?.frame {
                 if sender.locationInView(self.view).y < UIScreen.mainScreen().bounds.size.height - frame.size.height - swipeKeyboardMargin {
