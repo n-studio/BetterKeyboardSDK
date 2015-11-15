@@ -21,7 +21,16 @@ class ViewController: UIViewController, UITextViewDelegate, UIGestureRecognizerD
         self.title = "Text View"
         
         let textView = UITextView(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height))
-        textView.text = "You can use shortcuts in this view!\nTry ⌘+a, ⌘+c, ⌘+x, ⌘+v, ⌘+z, ⌘+y!!\n\nYou can also try the text selection with ⌘+← and ⌘+→!\n\nIf you want to implement this shortcuts to your apps, just detect the input of the strings '⌘[key]' and '␛'\n\nTo be able to use shortcuts, please download Better Keyboard (by Solfanto) or any other compatible iOS keyboard extension."
+        textView.allowsEditingTextAttributes = true
+        let text = "You can use shortcuts in this view!\nTry ⌘+a, ⌘+c, ⌘+x, ⌘+v, ⌘+z, ⌘+y!!\n\nYou can also try the text selection with ⌘+← and ⌘+→!\n\nIf you want to implement this shortcuts to your apps, just detect the input of the strings '⌘[key]' and '␛'\n\nTo be able to use shortcuts, please download Better Keyboard (by Solfanto) or any other compatible iOS keyboard extension.\n\n"
+        let attributedString = NSMutableAttributedString(string: text)
+        let textAttachment = NSTextAttachment()
+        textAttachment.image = UIImage(named: "Image")
+        let attributedImage = NSAttributedString(attachment: textAttachment)
+        attributedString.replaceCharactersInRange(NSRange(location: text.characters.count, length: 0), withAttributedString: attributedImage)
+        
+        textView.attributedText = attributedString
+
         textView.delegate = self
         self.view.addSubview(textView)
         

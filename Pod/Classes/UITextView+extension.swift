@@ -8,6 +8,16 @@
 
 import UIKit
 
+@objc enum BKViMode: Int {
+    case Default
+    case Insert
+    case Visual
+}
+
+@objc protocol BKTextViewDelegate {
+    optional func bk_keyboardViModeDidChange(textView: UITextView, mode: BKViMode)
+}
+
 extension UITextView {
     private struct Properties {
         static var bk_currentCursor: Int? // 1: right, 0: left
@@ -96,6 +106,7 @@ extension UITextView {
             
         }
         else {
+            NSLog("\(text)")
             if let _ = text.rangeOfString("^⌘.$", options: .RegularExpressionSearch) {
                 switch text {
                 case "⌘a":
@@ -119,10 +130,37 @@ extension UITextView {
                 }
                 return false
             }
+            else if let exp = try? NSRegularExpression(pattern: "^\\[data:image/([a-z]{3,4});base64,([^\\]]+)\\]$", options: []) {
+                var matches = exp.matchesInString(text, options: [], range: NSMakeRange(0, text.characters.count))
+                if matches.count == 0 {
+                    return true
+                }
+                let formatRange = matches[0].rangeAtIndex(1)
+                let format = text.substringWithRange(Range(start: text.startIndex.advancedBy(formatRange.location), end: text.startIndex.advancedBy(formatRange.location + formatRange.length)))
+                let codeRange = matches[0].rangeAtIndex(2)
+                let code = text.substringWithRange(Range(start: text.startIndex.advancedBy(codeRange.location), end: text.startIndex.advancedBy(codeRange.location + codeRange.length)))
+                
+                insertPictureWithCode(code, format: format)
+                return false
+            }
             else if text == "⎋" || text == "␛" {
                 return false
             }
             return true
+        }
+    }
+    
+    func insertPictureWithCode(code: String, format: String) {
+        if let data = NSData(base64EncodedString: code, options: []) {
+            let range = self.selectedRange
+            let image = UIImage(data: data)
+            let textAttachment = NSTextAttachment()
+            textAttachment.image = image
+            let attributedString = self.attributedText.mutableCopy()
+            let attributedImage = NSAttributedString(attachment: textAttachment)
+            attributedString.replaceCharactersInRange(NSRange(location: self.selectedRange.location,length: 0), withAttributedString: attributedImage)
+            self.attributedText = attributedString as? NSAttributedString
+            self.selectedRange = NSRange(location: range.location + 1, length: 0)
         }
     }
     
