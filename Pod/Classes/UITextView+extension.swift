@@ -106,7 +106,6 @@ extension UITextView {
             
         }
         else {
-            NSLog("\(text)")
             if let _ = text.rangeOfString("^⌘.$", options: .RegularExpressionSearch) {
                 switch text {
                 case "⌘a":
@@ -169,7 +168,7 @@ extension UITextView {
             self.undoManager?.undo()
         }
         else {
-            NSLog("can't undo")
+            NSLog("Error: can't undo")
         }
     }
     
@@ -178,7 +177,7 @@ extension UITextView {
             self.undoManager?.redo()
         }
         else {
-            NSLog("can't redo")
+            NSLog("Error: can't redo")
         }
     }
     

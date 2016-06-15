@@ -63,7 +63,7 @@ extension UITextField {
             self.undoManager?.undo()
         }
         else {
-            NSLog("can't undo")
+            NSLog("Error: can't undo")
         }
     }
     
@@ -72,7 +72,7 @@ extension UITextField {
             self.undoManager?.redo()
         }
         else {
-            NSLog("can't redo")
+            NSLog("Error: can't redo")
         }
     }
     
