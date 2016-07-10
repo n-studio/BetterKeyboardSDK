@@ -34,7 +34,7 @@ class ViewController: UIViewController, UITextViewDelegate, UIGestureRecognizerD
         textView.delegate = self
         self.view.addSubview(textView)
         
-        let swipeGesture = UIPanGestureRecognizer(target: self, action: "swipeKeyboard:")
+        let swipeGesture = UIPanGestureRecognizer(target: self, action: #selector(swipeKeyboard(_:)))
         swipeGesture.delegate = self
         self.view.addGestureRecognizer(swipeGesture)
     }
