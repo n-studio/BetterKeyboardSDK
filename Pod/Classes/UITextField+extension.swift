@@ -28,8 +28,8 @@ extension UITextField {
         }
     }
     
-    public func bk_advancedTextFieldShouldChangeTextInRange(range: NSRange, replacementString string: String) -> Bool {
-        if let _ = string.rangeOfString("^⌘.$", options: .RegularExpressionSearch) {
+    public func bk_advancedTextFieldShouldChangeTextInRange(_ range: NSRange, replacementString string: String) -> Bool {
+        if let _ = string.range(of: "^⌘.$", options: .regularExpression) {
             switch string {
             case "⌘a":
                 self.selectAll(nil)
@@ -81,37 +81,37 @@ extension UITextField {
             guard let selectedTextRange = self.selectedTextRange else {
                 return NSRange()
             }
-            return NSRangeFromString("{\(self.offsetFromPosition(self.beginningOfDocument, toPosition: selectedTextRange.start)),\(self.offsetFromPosition(selectedTextRange.start, toPosition: selectedTextRange.end))}")
+            return NSRangeFromString("{\(self.offset(from: self.beginningOfDocument, to: selectedTextRange.start)),\(self.offset(from: selectedTextRange.start, to: selectedTextRange.end))}")
         }
     }
     
-    func copyText(sender: AnyObject?) {
-        let pasteBoard: UIPasteboard = UIPasteboard.generalPasteboard()
-        let textToCopy = (self.text! as NSString).substringWithRange(self.selectedRange)
+    func copyText(_ sender: AnyObject?) {
+        let pasteBoard: UIPasteboard = UIPasteboard.general
+        let textToCopy = (self.text! as NSString).substring(with: self.selectedRange)
         if textToCopy != "" {
             pasteBoard.string = textToCopy
         }
     }
     
-    func cutText(sender: AnyObject?) {
+    func cutText(_ sender: AnyObject?) {
         let range = self.selectedRange
-        let pasteBoard: UIPasteboard = UIPasteboard.generalPasteboard()
-        let textToCopy = (self.text! as NSString).substringWithRange(self.selectedRange)
+        let pasteBoard: UIPasteboard = UIPasteboard.general
+        let textToCopy = (self.text! as NSString).substring(with: self.selectedRange)
         if textToCopy != "" {
             pasteBoard.string = textToCopy
         }
-        self.text = (self.text! as NSString).stringByReplacingCharactersInRange(self.selectedRange, withString: "")
-        if let position = self.positionFromPosition(self.beginningOfDocument, offset: range.location) {
-            self.selectedTextRange = self.textRangeFromPosition(position, toPosition: position)
+        self.text = (self.text! as NSString).replacingCharacters(in: self.selectedRange, with: "")
+        if let position = self.position(from: self.beginningOfDocument, offset: range.location) {
+            self.selectedTextRange = self.textRange(from: position, to: position)
         }
     }
     
-    func pasteText(sender: AnyObject?) {
+    func pasteText(_ sender: AnyObject?) {
         let range = self.selectedRange
-        if let pasteBoardString = UIPasteboard.generalPasteboard().string {
-            self.text = (self.text! as NSString).stringByReplacingCharactersInRange(self.selectedRange, withString: pasteBoardString)
-            if let position = self.positionFromPosition(self.beginningOfDocument, offset: range.location + pasteBoardString.characters.count) {
-                self.selectedTextRange = self.textRangeFromPosition(position, toPosition: position)
+        if let pasteBoardString = UIPasteboard.general.string {
+            self.text = (self.text! as NSString).replacingCharacters(in: self.selectedRange, with: pasteBoardString)
+            if let position = self.position(from: self.beginningOfDocument, offset: range.location + pasteBoardString.characters.count) {
+                self.selectedTextRange = self.textRange(from: position, to: position)
             }
         }
     }
@@ -124,16 +124,16 @@ extension UITextField {
         }
         
         if self.bk_currentCursor == 1 {
-            if let startPosition = self.positionFromPosition(self.beginningOfDocument, offset: self.selectedRange.location) {
-                if let endPosition = self.positionFromPosition(startPosition, offset: length - 1) {
-                    self.selectedTextRange = self.textRangeFromPosition(startPosition, toPosition: endPosition)
+            if let startPosition = self.position(from: self.beginningOfDocument, offset: self.selectedRange.location) {
+                if let endPosition = self.position(from: startPosition, offset: length - 1) {
+                    self.selectedTextRange = self.textRange(from: startPosition, to: endPosition)
                 }
             }
         }
         else {
-            if let startPosition = self.positionFromPosition(self.beginningOfDocument, offset: self.selectedRange.location - 1) {
-                if let endPosition = self.positionFromPosition(startPosition, offset: self.selectedRange.length + 1) {
-                    self.selectedTextRange = self.textRangeFromPosition(startPosition, toPosition: endPosition)
+            if let startPosition = self.position(from: self.beginningOfDocument, offset: self.selectedRange.location - 1) {
+                if let endPosition = self.position(from: startPosition, offset: self.selectedRange.length + 1) {
+                    self.selectedTextRange = self.textRange(from: startPosition, to: endPosition)
                 }
             }
         }
@@ -151,16 +151,16 @@ extension UITextField {
         }
         
         if self.bk_currentCursor == 1 {
-            if let startPosition = self.positionFromPosition(self.beginningOfDocument, offset: self.selectedRange.location) {
-                if let endPosition = self.positionFromPosition(startPosition, offset: length + 1) {
-                    self.selectedTextRange = self.textRangeFromPosition(startPosition, toPosition: endPosition)
+            if let startPosition = self.position(from: self.beginningOfDocument, offset: self.selectedRange.location) {
+                if let endPosition = self.position(from: startPosition, offset: length + 1) {
+                    self.selectedTextRange = self.textRange(from: startPosition, to: endPosition)
                 }
             }
         }
         else {
-            if let startPosition = self.positionFromPosition(self.beginningOfDocument, offset: self.selectedRange.location + 1) {
-                if let endPosition = self.positionFromPosition(startPosition, offset: length - 1) {
-                    self.selectedTextRange = self.textRangeFromPosition(startPosition, toPosition: endPosition)
+            if let startPosition = self.position(from: self.beginningOfDocument, offset: self.selectedRange.location + 1) {
+                if let endPosition = self.position(from: startPosition, offset: length - 1) {
+                    self.selectedTextRange = self.textRange(from: startPosition, to: endPosition)
                 }
             }
         }

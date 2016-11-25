@@ -9,7 +9,7 @@
 import UIKit
 
 extension UIViewController {
-    private struct Properties {
+    fileprivate struct Properties {
         static var keyboardStatus: NSString?
         static var originalInset: NSValue?
         static var tabBarHeight: CGFloat = 0.0
@@ -58,28 +58,28 @@ extension UIViewController {
     }
     
     func bs_setKeyboardNotifications() {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(bs_keyboardWillAppear(_:)), name: UIKeyboardWillShowNotification, object:nil
+        NotificationCenter.default.addObserver(self, selector: #selector(bs_keyboardWillAppear(_:)), name: NSNotification.Name.UIKeyboardWillShow, object:nil
         )
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(bs_keyboardDidAppear(_:)), name: UIKeyboardDidShowNotification, object:nil
+        NotificationCenter.default.addObserver(self, selector: #selector(bs_keyboardDidAppear(_:)), name: NSNotification.Name.UIKeyboardDidShow, object:nil
         )
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(bs_keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object:nil
+        NotificationCenter.default.addObserver(self, selector: #selector(bs_keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object:nil
         )
     }
     
     func bs_unsetKeyboardNotifications() {
         self.dismissKeyboard(nil)
-        NSNotificationCenter.defaultCenter().removeObserver(self,
-            name: UIKeyboardWillShowNotification, object:nil
+        NotificationCenter.default.removeObserver(self,
+            name: NSNotification.Name.UIKeyboardWillShow, object:nil
         )
-        NSNotificationCenter.defaultCenter().removeObserver(self,
-            name: UIKeyboardDidShowNotification, object:nil
+        NotificationCenter.default.removeObserver(self,
+            name: NSNotification.Name.UIKeyboardDidShow, object:nil
         )
-        NSNotificationCenter.defaultCenter().removeObserver(self,
-            name: UIKeyboardWillHideNotification, object:nil
+        NotificationCenter.default.removeObserver(self,
+            name: NSNotification.Name.UIKeyboardWillHide, object:nil
         )
     }
     
-    func bs_keyboardWillAppear(notification: NSNotification) {
+    func bs_keyboardWillAppear(_ notification: Notification) {
         if self.outsideKeyboardTapRecognizer == nil {
             self.outsideKeyboardTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard(_:)))
         }
@@ -90,19 +90,19 @@ extension UIViewController {
         self.moveScrollViewForKeyboardUp(notification)
     }
     
-    func keyboardWillAppear(notification: NSNotification) {
+    func keyboardWillAppear(_ notification: Notification) {
         
     }
     
-    func bs_keyboardDidAppear(notification: NSNotification) {
+    func bs_keyboardDidAppear(_ notification: Notification) {
         self.keyboardDidAppear(notification)
     }
     
-    func keyboardDidAppear(notification: NSNotification) {
+    func keyboardDidAppear(_ notification: Notification) {
         
     }
     
-    func bs_keyboardWillHide(notification: NSNotification) {
+    func bs_keyboardWillHide(_ notification: Notification) {
         if let recognizer = outsideKeyboardTapRecognizer {
             self.view.removeGestureRecognizer(recognizer)
         }
@@ -110,21 +110,21 @@ extension UIViewController {
         self.moveScrollViewForKeyboardDown(notification)
     }
     
-    func keyboardWillDisappear(notification: NSNotification) {
+    func keyboardWillDisappear(_ notification: Notification) {
         
     }
     
-    func dismissKeyboard(sender: AnyObject?) {
+    func dismissKeyboard(_ sender: AnyObject?) {
         self.view.endEditing(true)
     }
     
-    func moveScrollViewForKeyboardUp(notification: NSNotification) {
+    func moveScrollViewForKeyboardUp(_ notification: Notification) {
         if keyboardStatus == "up" {
             return
         }
         
         if let scrollView = getScrollView() {
-            originalInset = NSValue(UIEdgeInsets: scrollView.contentInset)
+            originalInset = NSValue(uiEdgeInsets: scrollView.contentInset)
             var inset = scrollView.contentInset
             inset.bottom -= tabBarHeight
             scrollView.contentInset = inset
@@ -137,9 +137,9 @@ extension UIViewController {
             
             // Get animation info from userInfo
             // let animationCurve = (userInfo?[UIKeyboardAnimationCurveUserInfoKey] as NSNumber).integerValue
-            let animationCurve = UIViewAnimationCurve.EaseInOut.rawValue
+            let animationCurve = UIViewAnimationCurve.easeInOut.rawValue
             let animationDuration = durationInfo.doubleValue
-            let keyboardSize = sizeInfo.CGRectValue().size
+            let keyboardSize = sizeInfo.cgRectValue.size
             
             // Animate up or down
             UIView.beginAnimations(nil, context: nil)
@@ -159,7 +159,7 @@ extension UIViewController {
         }
     }
     
-    func moveScrollViewForKeyboardDown(notification: NSNotification) {
+    func moveScrollViewForKeyboardDown(_ notification: Notification) {
         if keyboardStatus == "down" {
             return
         }
@@ -172,7 +172,7 @@ extension UIViewController {
             
             // Get animation info from userInfo
             // let animationCurve = (userInfo[UIKeyboardAnimationCurveUserInfoKey] as NSNumber).integerValue
-            let animationCurve = UIViewAnimationCurve.EaseInOut.rawValue
+            let animationCurve = UIViewAnimationCurve.easeInOut.rawValue
             let animationDuration = durationInfo.doubleValue
             // let keyboardSize = (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue().size
             
@@ -183,7 +183,7 @@ extension UIViewController {
             UIView.setAnimationCurve(UIViewAnimationCurve(rawValue: animationCurve)!)
             
             if let inset = originalInset {
-                scrollView.contentInset = inset.UIEdgeInsetsValue()
+                scrollView.contentInset = inset.uiEdgeInsetsValue
             }
             var inset = scrollView.contentInset
             inset.bottom -= tabBarHeight
@@ -192,7 +192,7 @@ extension UIViewController {
             UIView.commitAnimations()
             
             if let inset = originalInset {
-                scrollView.contentInset = inset.UIEdgeInsetsValue()
+                scrollView.contentInset = inset.uiEdgeInsetsValue
             }
             scrollView.scrollIndicatorInsets = scrollView.contentInset
             originalInset = nil

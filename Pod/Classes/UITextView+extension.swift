@@ -9,17 +9,17 @@
 import UIKit
 
 @objc enum BKViMode: Int {
-    case Default
-    case Insert
-    case Visual
+    case `default`
+    case insert
+    case visual
 }
 
 @objc protocol BKTextViewDelegate {
-    optional func bk_keyboardViModeDidChange(textView: UITextView, mode: BKViMode)
+    @objc optional func bk_keyboardViModeDidChange(_ textView: UITextView, mode: BKViMode)
 }
 
 extension UITextView {
-    private struct Properties {
+    fileprivate struct Properties {
         static var bk_currentCursor: Int? // 1: right, 0: left
         static var bk_viEnabled: Bool?
         static var bk_viInsertMode: Bool?
@@ -61,9 +61,9 @@ extension UITextView {
         }
     }
     
-    public func bk_advancedTextViewShouldChangeTextInRange(range: NSRange, replacementText text: String) -> Bool {
+    public func bk_advancedTextViewShouldChangeTextInRange(_ range: NSRange, replacementText text: String) -> Bool {
         if self.bk_viEnabled == true {
-            if let _ = text.rangeOfString("^⌘.$", options: .RegularExpressionSearch) {
+            if let _ = text.range(of: "^⌘.$", options: .regularExpression) {
                 switch text {
                 case "⌘a":
                     self.selectAll(nil)
@@ -88,7 +88,7 @@ extension UITextView {
                         self.bk_viInsertMode = true
                     case "x":
                         self.deleteBackward()
-                        self.setMarkedText(String(self.text![self.text.startIndex.advancedBy(1)]), selectedRange: NSRange(location: self.selectedRange.location, length: 1))
+                        self.setMarkedText(String(self.text![self.text.index(self.text.startIndex, offsetBy: 1)]), selectedRange: NSRange(location: self.selectedRange.location, length: 1))
                         
                     default:
                         break
@@ -106,7 +106,7 @@ extension UITextView {
             
         }
         else {
-            if let _ = text.rangeOfString("^⌘.$", options: .RegularExpressionSearch) {
+            if let _ = text.range(of: "^⌘.$", options: .regularExpression) {
                 switch text {
                 case "⌘a":
                     self.selectAll(nil)
@@ -130,14 +130,14 @@ extension UITextView {
                 return false
             }
             else if let exp = try? NSRegularExpression(pattern: "^\\[data:image/([a-z]{3,4});base64,([^\\]]+)\\]$", options: []) {
-                var matches = exp.matchesInString(text, options: [], range: NSMakeRange(0, text.characters.count))
+                var matches = exp.matches(in: text, options: [], range: NSMakeRange(0, text.characters.count))
                 if matches.count == 0 {
                     return true
                 }
-                let formatRange = matches[0].rangeAtIndex(1)
-                let format = text.substringWithRange(Range(start: text.startIndex.advancedBy(formatRange.location), end: text.startIndex.advancedBy(formatRange.location + formatRange.length)))
-                let codeRange = matches[0].rangeAtIndex(2)
-                let code = text.substringWithRange(Range(start: text.startIndex.advancedBy(codeRange.location), end: text.startIndex.advancedBy(codeRange.location + codeRange.length)))
+                let formatRange = matches[0].rangeAt(1)
+                let format = text.substring(with: (text.characters.index(text.startIndex, offsetBy: formatRange.location) ..< text.characters.index(text.startIndex, offsetBy: formatRange.location + formatRange.length)))
+                let codeRange = matches[0].rangeAt(2)
+                let code = text.substring(with: (text.characters.index(text.startIndex, offsetBy: codeRange.location) ..< text.characters.index(text.startIndex, offsetBy: codeRange.location + codeRange.length)))
                 
                 insertPictureWithCode(code, format: format)
                 return false
@@ -149,15 +149,15 @@ extension UITextView {
         }
     }
     
-    func insertPictureWithCode(code: String, format: String) {
-        if let data = NSData(base64EncodedString: code, options: []) {
+    func insertPictureWithCode(_ code: String, format: String) {
+        if let data = Data(base64Encoded: code, options: []) {
             let range = self.selectedRange
             let image = UIImage(data: data)
             let textAttachment = NSTextAttachment()
             textAttachment.image = image
             let attributedString = self.attributedText.mutableCopy()
             let attributedImage = NSAttributedString(attachment: textAttachment)
-            attributedString.replaceCharactersInRange(NSRange(location: self.selectedRange.location,length: 0), withAttributedString: attributedImage)
+            (attributedString as AnyObject).replaceCharacters(in: NSRange(location: self.selectedRange.location,length: 0), with: attributedImage)
             self.attributedText = attributedString as? NSAttributedString
             self.selectedRange = NSRange(location: range.location + 1, length: 0)
         }
@@ -181,30 +181,30 @@ extension UITextView {
         }
     }
     
-    func copyText(sender: AnyObject?) {
-        let pasteBoard: UIPasteboard = UIPasteboard.generalPasteboard()
-        let textToCopy = (self.text as NSString).substringWithRange(self.selectedRange)
+    func copyText(_ sender: AnyObject?) {
+        let pasteBoard: UIPasteboard = UIPasteboard.general
+        let textToCopy = (self.text as NSString).substring(with: self.selectedRange)
         if textToCopy != "" {
             pasteBoard.string = textToCopy
         }
     }
     
-    func cutText(sender: AnyObject?) {
+    func cutText(_ sender: AnyObject?) {
         let range = self.selectedRange
-        let pasteBoard: UIPasteboard = UIPasteboard.generalPasteboard()
-        let textToCopy = (self.text as NSString).substringWithRange(self.selectedRange)
+        let pasteBoard: UIPasteboard = UIPasteboard.general
+        let textToCopy = (self.text as NSString).substring(with: self.selectedRange)
         if textToCopy != "" {
             pasteBoard.string = textToCopy
         }
-        self.text = (self.text as NSString).stringByReplacingCharactersInRange(self.selectedRange, withString: "")
+        self.text = (self.text as NSString).replacingCharacters(in: self.selectedRange, with: "")
         self.selectedRange = NSRange(location: range.location, length: 0)
     }
     
-    func pasteText(sender: AnyObject?) {
+    func pasteText(_ sender: AnyObject?) {
         let range = self.selectedRange
-        let pasteBoard: UIPasteboard = UIPasteboard.generalPasteboard()
+        let pasteBoard: UIPasteboard = UIPasteboard.general
         if let string = pasteBoard.string {
-            self.text = (self.text as NSString).stringByReplacingCharactersInRange(self.selectedRange, withString: string)
+            self.text = (self.text as NSString).replacingCharacters(in: self.selectedRange, with: string)
             self.selectedRange = NSRange(location: range.location + string.characters.count, length: 0)
         }
     }

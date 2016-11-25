@@ -16,7 +16,7 @@ class ViewController: UIViewController, UITextViewDelegate, UIGestureRecognizerD
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = UIColor.whiteColor()
+        self.view.backgroundColor = UIColor.white
         
         self.title = "Text View"
         
@@ -27,7 +27,7 @@ class ViewController: UIViewController, UITextViewDelegate, UIGestureRecognizerD
         let textAttachment = NSTextAttachment()
         textAttachment.image = UIImage(named: "Image")
         let attributedImage = NSAttributedString(attachment: textAttachment)
-        attributedString.replaceCharactersInRange(NSRange(location: text.characters.count, length: 0), withAttributedString: attributedImage)
+        attributedString.replaceCharacters(in: NSRange(location: text.characters.count, length: 0), with: attributedImage)
         
         textView.attributedText = attributedString
 
@@ -39,7 +39,7 @@ class ViewController: UIViewController, UITextViewDelegate, UIGestureRecognizerD
         self.view.addGestureRecognizer(swipeGesture)
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         if let tabBarController = self.tabBarController {
             self.tabBarHeight = tabBarController.tabBar.frame.size.height
@@ -47,57 +47,57 @@ class ViewController: UIViewController, UITextViewDelegate, UIGestureRecognizerD
         bs_setKeyboardNotifications()
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         bs_unsetKeyboardNotifications()
     }
     
-    func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         return textView.bk_advancedTextViewShouldChangeTextInRange(range, replacementText: text)
     }
     
-    func textViewDidChangeSelection(textView: UITextView) {
+    func textViewDidChangeSelection(_ textView: UITextView) {
         textView.bk_advancedTextViewDidChangeSelection()
     }
     
-    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
     
-    func swipeKeyboard(sender: UIPanGestureRecognizer) {
-        if sender.state == .Began {
-            self.swipeKeyboardInitialPosition = sender.locationInView(self.view)
+    func swipeKeyboard(_ sender: UIPanGestureRecognizer) {
+        if sender.state == .began {
+            self.swipeKeyboardInitialPosition = sender.location(in: self.view)
         }
-        else if sender.state == .Changed {
+        else if sender.state == .changed {
             guard let initialPosition = self.swipeKeyboardInitialPosition else {
                 return
             }
             
-            let diffY = sender.locationInView(self.view).y - initialPosition.y
+            let diffY = sender.location(in: self.view).y - initialPosition.y
             let keyboard = bk_getKeyboardView()
             if let frame = keyboard?.frame {
-                if sender.locationInView(self.view).y < UIScreen.mainScreen().bounds.size.height - frame.size.height - swipeKeyboardMargin {
+                if sender.location(in: self.view).y < UIScreen.main.bounds.size.height - frame.size.height - swipeKeyboardMargin {
                     return
                 }
                 
                 var newFrame = frame
-                newFrame.origin.y = (UIScreen.mainScreen().bounds.size.height - frame.size.height) + diffY
-                if newFrame.origin.y < UIScreen.mainScreen().bounds.size.height - frame.size.height {
-                    newFrame.origin.y = UIScreen.mainScreen().bounds.size.height - frame.size.height
+                newFrame.origin.y = (UIScreen.main.bounds.size.height - frame.size.height) + diffY
+                if newFrame.origin.y < UIScreen.main.bounds.size.height - frame.size.height {
+                    newFrame.origin.y = UIScreen.main.bounds.size.height - frame.size.height
                 }
-                UIView.animateWithDuration(0.1, animations: { () -> Void in
+                UIView.animate(withDuration: 0.1, animations: { () -> Void in
                     keyboard?.frame = newFrame
                 })
                 
             }
         }
-        else if sender.state == .Ended {
+        else if sender.state == .ended {
             let keyboard = bk_getKeyboardView()
             if let frame = keyboard?.frame {
                 var newFrame = frame
-                if frame.origin.y > UIScreen.mainScreen().bounds.size.height - frame.size.height / 2 {
-                    UIView.animateWithDuration(0.25, animations: { () -> Void in
-                        newFrame.origin.y = UIScreen.mainScreen().bounds.size.height
+                if frame.origin.y > UIScreen.main.bounds.size.height - frame.size.height / 2 {
+                    UIView.animate(withDuration: 0.25, animations: { () -> Void in
+                        newFrame.origin.y = UIScreen.main.bounds.size.height
                         keyboard?.frame = newFrame
                         }, completion: { (finished) -> Void in
                             UIView.setAnimationsEnabled(false)
@@ -106,8 +106,8 @@ class ViewController: UIViewController, UITextViewDelegate, UIGestureRecognizerD
                     })
                 }
                 else {
-                    newFrame.origin.y = UIScreen.mainScreen().bounds.size.height - frame.size.height
-                    UIView.animateWithDuration(0.25, animations: { () -> Void in
+                    newFrame.origin.y = UIScreen.main.bounds.size.height - frame.size.height
+                    UIView.animate(withDuration: 0.25, animations: { () -> Void in
                         keyboard?.frame = newFrame
                     })
                 }

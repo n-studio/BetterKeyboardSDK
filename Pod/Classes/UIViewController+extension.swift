@@ -10,12 +10,12 @@ import UIKit
 
 extension UIViewController {
     public func bk_getKeyboardView() -> UIView? {
-        for window in UIApplication.sharedApplication().windows {
-            if NSStringFromClass(window.dynamicType) == "UIRemoteKeyboardWindow" {
+        for window in UIApplication.shared.windows {
+            if NSStringFromClass(type(of: window)) == "UIRemoteKeyboardWindow" {
                 for subView in window.subviews {
-                    if NSStringFromClass(subView.dynamicType) == "UIInputSetContainerView" {
+                    if NSStringFromClass(type(of: subView)) == "UIInputSetContainerView" {
                         for subsubView in subView.subviews {
-                            if NSStringFromClass(subsubView.dynamicType) == "UIInputSetHostView" {
+                            if NSStringFromClass(type(of: subsubView)) == "UIInputSetHostView" {
                                 return subsubView
                             }
                         }
