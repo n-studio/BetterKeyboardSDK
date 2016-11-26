@@ -12,7 +12,7 @@
 import UIKit
 
 extension UITextField {
-    private struct Properties {
+    fileprivate struct Properties {
         static var bk_currentCursor: Int? // 1: right, 0: left
     }
     
