@@ -27,7 +27,7 @@ class ViewController: UIViewController, UITextViewDelegate, UIGestureRecognizerD
         let textAttachment = NSTextAttachment()
         textAttachment.image = UIImage(named: "Image")
         let attributedImage = NSAttributedString(attachment: textAttachment)
-        attributedString.replaceCharacters(in: NSRange(location: text.characters.count, length: 0), with: attributedImage)
+        attributedString.replaceCharacters(in: NSRange(location: text.count, length: 0), with: attributedImage)
         
         textView.attributedText = attributedString
 
@@ -64,7 +64,7 @@ class ViewController: UIViewController, UITextViewDelegate, UIGestureRecognizerD
         return true
     }
     
-    func swipeKeyboard(_ sender: UIPanGestureRecognizer) {
+    @objc func swipeKeyboard(_ sender: UIPanGestureRecognizer) {
         if sender.state == .began {
             self.swipeKeyboardInitialPosition = sender.location(in: self.view)
         }

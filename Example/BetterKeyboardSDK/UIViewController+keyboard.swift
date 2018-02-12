@@ -79,7 +79,7 @@ extension UIViewController {
         )
     }
     
-    func bs_keyboardWillAppear(_ notification: Notification) {
+    @objc func bs_keyboardWillAppear(_ notification: Notification) {
         if self.outsideKeyboardTapRecognizer == nil {
             self.outsideKeyboardTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard(_:)))
         }
@@ -94,7 +94,7 @@ extension UIViewController {
         
     }
     
-    func bs_keyboardDidAppear(_ notification: Notification) {
+    @objc func bs_keyboardDidAppear(_ notification: Notification) {
         self.keyboardDidAppear(notification)
     }
     
@@ -102,7 +102,7 @@ extension UIViewController {
         
     }
     
-    func bs_keyboardWillHide(_ notification: Notification) {
+    @objc func bs_keyboardWillHide(_ notification: Notification) {
         if let recognizer = outsideKeyboardTapRecognizer {
             self.view.removeGestureRecognizer(recognizer)
         }
@@ -114,7 +114,7 @@ extension UIViewController {
         
     }
     
-    func dismissKeyboard(_ sender: AnyObject?) {
+    @objc func dismissKeyboard(_ sender: AnyObject?) {
         self.view.endEditing(true)
     }
     

@@ -110,7 +110,7 @@ extension UITextField {
         let range = self.selectedRange
         if let pasteBoardString = UIPasteboard.general.string {
             self.text = (self.text! as NSString).replacingCharacters(in: self.selectedRange, with: pasteBoardString)
-            if let position = self.position(from: self.beginningOfDocument, offset: range.location + pasteBoardString.characters.count) {
+            if let position = self.position(from: self.beginningOfDocument, offset: range.location + pasteBoardString.count) {
                 self.selectedTextRange = self.textRange(from: position, to: position)
             }
         }

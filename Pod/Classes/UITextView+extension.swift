@@ -130,16 +130,16 @@ extension UITextView {
                 return false
             }
             else if let exp = try? NSRegularExpression(pattern: "^\\[data:image/([a-z]{3,4});base64,([^\\]]+)\\]$", options: []) {
-                var matches = exp.matches(in: text, options: [], range: NSMakeRange(0, text.characters.count))
+                var matches = exp.matches(in: text, options: [], range: NSMakeRange(0, text.count))
                 if matches.count == 0 {
                     return true
                 }
-                let formatRange = matches[0].rangeAt(1)
-                let format = text.substring(with: (text.characters.index(text.startIndex, offsetBy: formatRange.location) ..< text.characters.index(text.startIndex, offsetBy: formatRange.location + formatRange.length)))
-                let codeRange = matches[0].rangeAt(2)
-                let code = text.substring(with: (text.characters.index(text.startIndex, offsetBy: codeRange.location) ..< text.characters.index(text.startIndex, offsetBy: codeRange.location + codeRange.length)))
+                let formatRange = matches[0].range(at: 1)
+                let format = text[text.index(text.startIndex, offsetBy: formatRange.location) ..< text.index(text.startIndex, offsetBy: formatRange.location + formatRange.length)]
+                let codeRange = matches[0].range(at: 2)
+                let code = text[text.index(text.startIndex, offsetBy: codeRange.location) ..< text.index(text.startIndex, offsetBy: codeRange.location + codeRange.length)]
                 
-                insertPictureWithCode(code, format: format)
+                insertPictureWithCode(String(code), format: String(format))
                 return false
             }
             else if text == "⎋" || text == "␛" {
@@ -205,7 +205,7 @@ extension UITextView {
         let pasteBoard: UIPasteboard = UIPasteboard.general
         if let string = pasteBoard.string {
             self.text = (self.text as NSString).replacingCharacters(in: self.selectedRange, with: string)
-            self.selectedRange = NSRange(location: range.location + string.characters.count, length: 0)
+            self.selectedRange = NSRange(location: range.location + string.count, length: 0)
         }
     }
     
