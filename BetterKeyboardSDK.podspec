@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "BetterKeyboardSDK"
-  s.version          = "0.1.0"
+  s.version          = "0.1.1"
   s.summary          = "A quick way to implement default features for Better Keyboard (by Solfanto)."
 
 # This description is used to generate tags and improve search results.
