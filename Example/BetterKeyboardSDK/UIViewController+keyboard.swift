@@ -58,24 +58,24 @@ extension UIViewController {
     }
     
     func bs_setKeyboardNotifications() {
-        NotificationCenter.default.addObserver(self, selector: #selector(bs_keyboardWillAppear(_:)), name: NSNotification.Name.UIKeyboardWillShow, object:nil
+        NotificationCenter.default.addObserver(self, selector: #selector(bs_keyboardWillAppear(_:)), name: UIResponder.keyboardWillShowNotification, object:nil
         )
-        NotificationCenter.default.addObserver(self, selector: #selector(bs_keyboardDidAppear(_:)), name: NSNotification.Name.UIKeyboardDidShow, object:nil
+        NotificationCenter.default.addObserver(self, selector: #selector(bs_keyboardDidAppear(_:)), name: UIResponder.keyboardDidShowNotification, object:nil
         )
-        NotificationCenter.default.addObserver(self, selector: #selector(bs_keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object:nil
+        NotificationCenter.default.addObserver(self, selector: #selector(bs_keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object:nil
         )
     }
     
     func bs_unsetKeyboardNotifications() {
         self.dismissKeyboard(nil)
         NotificationCenter.default.removeObserver(self,
-            name: NSNotification.Name.UIKeyboardWillShow, object:nil
+            name: UIResponder.keyboardWillShowNotification, object:nil
         )
         NotificationCenter.default.removeObserver(self,
-            name: NSNotification.Name.UIKeyboardDidShow, object:nil
+            name: UIResponder.keyboardDidShowNotification, object:nil
         )
         NotificationCenter.default.removeObserver(self,
-            name: NSNotification.Name.UIKeyboardWillHide, object:nil
+            name: UIResponder.keyboardWillHideNotification, object:nil
         )
     }
     
@@ -130,14 +130,14 @@ extension UIViewController {
             scrollView.contentInset = inset
             
             guard let userInfo = notification.userInfo,
-                let durationInfo = userInfo[UIKeyboardAnimationDurationUserInfoKey] as? NSNumber,
-                let sizeInfo = userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue else {
+                let durationInfo = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? NSNumber,
+                let sizeInfo = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {
                     return
             }
             
             // Get animation info from userInfo
             // let animationCurve = (userInfo?[UIKeyboardAnimationCurveUserInfoKey] as NSNumber).integerValue
-            let animationCurve = UIViewAnimationCurve.easeInOut.rawValue
+            let animationCurve = UIView.AnimationCurve.easeInOut.rawValue
             let animationDuration = durationInfo.doubleValue
             let keyboardSize = sizeInfo.cgRectValue.size
             
@@ -145,7 +145,7 @@ extension UIViewController {
             UIView.beginAnimations(nil, context: nil)
             UIView.setAnimationBeginsFromCurrentState(true)
             UIView.setAnimationDuration(animationDuration)
-            UIView.setAnimationCurve(UIViewAnimationCurve(rawValue: animationCurve)!)
+            UIView.setAnimationCurve(UIView.AnimationCurve(rawValue: animationCurve)!)
             
             var newInset = scrollView.contentInset
             newInset.bottom += keyboardSize.height
@@ -166,13 +166,13 @@ extension UIViewController {
         
         if let scrollView = getScrollView() {
             guard let userInfo = notification.userInfo,
-                let durationInfo = userInfo[UIKeyboardAnimationDurationUserInfoKey] as? NSNumber else {
+                let durationInfo = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? NSNumber else {
                     return
             }
             
             // Get animation info from userInfo
             // let animationCurve = (userInfo[UIKeyboardAnimationCurveUserInfoKey] as NSNumber).integerValue
-            let animationCurve = UIViewAnimationCurve.easeInOut.rawValue
+            let animationCurve = UIView.AnimationCurve.easeInOut.rawValue
             let animationDuration = durationInfo.doubleValue
             // let keyboardSize = (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue().size
             
@@ -180,7 +180,7 @@ extension UIViewController {
             UIView.beginAnimations(nil, context: nil)
             UIView.setAnimationBeginsFromCurrentState(true)
             UIView.setAnimationDuration(animationDuration)
-            UIView.setAnimationCurve(UIViewAnimationCurve(rawValue: animationCurve)!)
+            UIView.setAnimationCurve(UIView.AnimationCurve(rawValue: animationCurve)!)
             
             if let inset = originalInset {
                 scrollView.contentInset = inset.uiEdgeInsetsValue
