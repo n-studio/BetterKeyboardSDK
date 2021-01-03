@@ -130,7 +130,7 @@ extension UITextView {
                 return false
             }
             else if let exp = try? NSRegularExpression(pattern: "^\\[data:image/([a-z]{3,4});base64,([^\\]]+)\\]$", options: []) {
-                var matches = exp.matches(in: text, options: [], range: NSMakeRange(0, text.count))
+                let matches = exp.matches(in: text, options: [], range: NSMakeRange(0, text.count))
                 if matches.count == 0 {
                     return true
                 }

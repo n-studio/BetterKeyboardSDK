@@ -1,5 +1,5 @@
 PODS:
-  - BetterKeyboardSDK (0.1.0)
+  - BetterKeyboardSDK (0.1.1)
 
 DEPENDENCIES:
   - BetterKeyboardSDK (from `../`)
@@ -9,8 +9,8 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  BetterKeyboardSDK: da35d85b53ee793f495f1b3d53c47222b1819686
+  BetterKeyboardSDK: 3277efad6f98b48666861ebee8931b0f3637875d
 
-PODFILE CHECKSUM: f7ff6b965447caa53e3bcdd2e8c3da0aada5f30a
+PODFILE CHECKSUM: eee3d10686a02a08fab6200d4c85b007d23a039d
 
-COCOAPODS: 1.6.0.beta.2
+COCOAPODS: 1.10.0

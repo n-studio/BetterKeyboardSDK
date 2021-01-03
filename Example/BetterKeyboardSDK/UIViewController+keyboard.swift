@@ -137,25 +137,19 @@ extension UIViewController {
             
             // Get animation info from userInfo
             // let animationCurve = (userInfo?[UIKeyboardAnimationCurveUserInfoKey] as NSNumber).integerValue
-            let animationCurve = UIView.AnimationCurve.easeInOut.rawValue
             let animationDuration = durationInfo.doubleValue
             let keyboardSize = sizeInfo.cgRectValue.size
             
             // Animate up or down
-            UIView.beginAnimations(nil, context: nil)
-            UIView.setAnimationBeginsFromCurrentState(true)
-            UIView.setAnimationDuration(animationDuration)
-            UIView.setAnimationCurve(UIView.AnimationCurve(rawValue: animationCurve)!)
-            
-            var newInset = scrollView.contentInset
-            newInset.bottom += keyboardSize.height
-            scrollView.contentInset = newInset
-            
-            UIView.commitAnimations()
-            
-            scrollView.scrollIndicatorInsets = scrollView.contentInset
-            
-            keyboardStatus = "up"
+            UIView.animate(withDuration: animationDuration, delay: 0, options: .curveEaseInOut) {
+                var newInset = scrollView.contentInset
+                newInset.bottom += keyboardSize.height
+                scrollView.contentInset = newInset
+            } completion: { _ in
+                scrollView.scrollIndicatorInsets = scrollView.contentInset
+
+                self.keyboardStatus = "up"
+            }
         }
     }
     
@@ -172,32 +166,26 @@ extension UIViewController {
             
             // Get animation info from userInfo
             // let animationCurve = (userInfo[UIKeyboardAnimationCurveUserInfoKey] as NSNumber).integerValue
-            let animationCurve = UIView.AnimationCurve.easeInOut.rawValue
             let animationDuration = durationInfo.doubleValue
             // let keyboardSize = (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue().size
             
             // Animate up or down
-            UIView.beginAnimations(nil, context: nil)
-            UIView.setAnimationBeginsFromCurrentState(true)
-            UIView.setAnimationDuration(animationDuration)
-            UIView.setAnimationCurve(UIView.AnimationCurve(rawValue: animationCurve)!)
-            
-            if let inset = originalInset {
-                scrollView.contentInset = inset.uiEdgeInsetsValue
+            UIView.animate(withDuration: animationDuration, delay: 0, options: .curveEaseInOut) {
+                if let inset = self.originalInset {
+                    scrollView.contentInset = inset.uiEdgeInsetsValue
+                }
+                var inset = scrollView.contentInset
+                inset.bottom -= self.tabBarHeight
+                scrollView.contentInset = inset
+            } completion: { _ in
+                if let inset = self.originalInset {
+                    scrollView.contentInset = inset.uiEdgeInsetsValue
+                }
+                scrollView.scrollIndicatorInsets = scrollView.contentInset
+                self.originalInset = nil
+
+                self.keyboardStatus = "down"
             }
-            var inset = scrollView.contentInset
-            inset.bottom -= tabBarHeight
-            scrollView.contentInset = inset
-            
-            UIView.commitAnimations()
-            
-            if let inset = originalInset {
-                scrollView.contentInset = inset.uiEdgeInsetsValue
-            }
-            scrollView.scrollIndicatorInsets = scrollView.contentInset
-            originalInset = nil
-            
-            keyboardStatus = "down"
         }
     }
     
